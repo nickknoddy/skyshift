@@ -26,3 +26,6 @@ go.work.sum
 
 # Output folder for compliled binaries 
 /bin
+
+# Temp folder
+/tmp
