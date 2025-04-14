@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/nickknoddy/skyshift/pkg/configs"
+	"github.com/nickknoddy/skyshift/pkg/routes"
 	"github.com/spf13/viper"
 )
 
@@ -30,6 +31,8 @@ func main() {
 
 	// Define a new Fiber app with config.
 	app := fiber.New(config)
+
+	routes.UploadRoute(app)
 
 	app.Get("/ping", PingCheck)
 
