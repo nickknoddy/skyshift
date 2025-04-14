@@ -33,6 +33,7 @@ func main() {
 	app := fiber.New(config)
 
 	routes.UploadRoute(app)
+	routes.TransformRoute(app)
 
 	app.Get("/ping", PingCheck)
 
