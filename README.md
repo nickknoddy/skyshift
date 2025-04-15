@@ -8,7 +8,8 @@ SkyShift is an image transformation system -- a powerful, modular interface for 
 
 ## 🛠️ Effects Built-In
 
-- *Resize*
+- _Resize_
+- _Sharpen_
 
 ## 📂 Project Structure
 
