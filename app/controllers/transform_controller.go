@@ -44,22 +44,42 @@ func Transform(c *fiber.Ctx) error {
 		return c.Send(buf.Bytes())
 	}
 
-	sharpen, err := strconv.ParseFloat(c.Query("sharpen"), 64)
-	if err != nil {
-		slog.Error("sharpen should be an int")
-		return c.Status(400).SendString("sharpen should be an int")
-	}
-
-	if sharpen > 0 {
-		img := imaging.Resize(image, image.Bounds().Dx()/2, image.Bounds().Dy()/2, imaging.Lanczos)
-		slog.Info("sharpening start", "sharpen value: ", sharpen)
-		sharpenedImage := imaging.Sharpen(img, sharpen)
-		slog.Info("sharpening complete")
-		if err := jpeg.Encode(&buf, sharpenedImage, &jpeg.Options{Quality: 50}); err != nil {
-			return c.Status(500).SendString("Failed to process image")
+	if c.Query("sharpen") != "" {
+		sharpen, err := strconv.ParseFloat(c.Query("sharpen"), 64)
+		if err != nil {
+			slog.Error("sharpen should be an int")
+			return c.Status(400).SendString("sharpen should be an int")
 		}
 
-		c.Type("jpg")
+		if sharpen > 0 {
+			img := imaging.Resize(image, image.Bounds().Dx()/2, image.Bounds().Dy()/2, imaging.Lanczos)
+			slog.Info("sharpening start", "sharpen value: ", sharpen)
+			sharpenedImage := imaging.Sharpen(img, sharpen)
+			slog.Info("sharpening complete")
+			if err := jpeg.Encode(&buf, sharpenedImage, &jpeg.Options{Quality: 50}); err != nil {
+				return c.Status(500).SendString("Failed to process image")
+			}
+
+			c.Type("jpg")
+		}
+	}
+
+	if c.Query("blur") != "" {
+
+		blur, err := strconv.ParseFloat(c.Query("blur"), 64)
+		if err != nil {
+			slog.Error("blur should be an int")
+			return c.Status(400).SendString("blur should be an int")
+		}
+
+		if blur > 0 {
+			blurImage := imaging.Blur(image, blur)
+			if err := jpeg.Encode(&buf, blurImage, &jpeg.Options{Quality: 50}); err != nil {
+				return c.Status(500).SendString("Failed to process image")
+			}
+
+			c.Type("jpg")
+		}
 	}
 
 	return c.Send(buf.Bytes())
