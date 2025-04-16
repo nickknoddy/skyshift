@@ -6,3 +6,5 @@
 1. Benchmark all the transformations and develop a table so it can be tracked
 1. `opencv` python sharpen code is much faster
 1. Develop a small prototype in cuda
+1. Keep the output image format same as input
+1. Add functionality for chaining transformation
