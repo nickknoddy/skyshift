@@ -15,3 +15,6 @@
    - query string can be parsed
    - parsing the string will have some latency which will add to overall api response
    - sanitization of query is also important
+
+1. Enable pre-transformations while uploading images which can be cached
+   - will be helpful in cases of resizing, crop and compression
