@@ -10,6 +10,7 @@ SkyShift is an image transformation system -- a powerful, modular interface for 
 
 - _Resize_
 - _Sharpen_
+- _Blurr_
 
 ## 📂 Project Structure
 
