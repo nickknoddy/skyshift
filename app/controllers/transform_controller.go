@@ -82,5 +82,23 @@ func Transform(c *fiber.Ctx) error {
 		}
 	}
 
+	if c.Query("brightness") != "" {
+
+		brightness, err := strconv.ParseFloat(c.Query("brightness"), 64)
+		if err != nil {
+			slog.Error("brightness should be an int")
+			return c.Status(400).SendString("brightness should be an int")
+		}
+
+		if brightness > 0 {
+			brightenedImage := imaging.AdjustBrightness(image, brightness)
+			if err := jpeg.Encode(&buf, brightenedImage, &jpeg.Options{Quality: 50}); err != nil {
+				return c.Status(500).SendString("Failed to process image")
+			}
+
+			c.Type("jpg")
+		}
+	}
+
 	return c.Send(buf.Bytes())
 }
