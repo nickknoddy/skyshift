@@ -8,3 +8,10 @@
 1. Develop a small prototype in cuda
 1. Keep the output image format same as input
 1. Add functionality for chaining transformation
+1. Transformation query paramater can be replace with single query enclosing all transformations
+
+   - w: width, h: height, sh: sharpen, br: brightness
+   - query: w-360,h-360,sh-5,br-5
+   - query string can be parsed
+   - parsing the string will have some latency which will add to overall api response
+   - sanitization of query is also important
