@@ -100,5 +100,23 @@ func Transform(c *fiber.Ctx) error {
 		}
 	}
 
+	if c.Query("contrast") != "" {
+
+		contrast, err := strconv.ParseFloat(c.Query("contrast"), 64)
+		if err != nil {
+			slog.Error("contrast should be an int")
+			return c.Status(400).SendString("contrast should be an int")
+		}
+
+		if contrast > 0 {
+			contrastImage := imaging.AdjustContrast(image, contrast)
+			if err := jpeg.Encode(&buf, contrastImage, &jpeg.Options{Quality: 50}); err != nil {
+				return c.Status(500).SendString("Failed to process image")
+			}
+
+			c.Type("jpg")
+		}
+	}
+
 	return c.Send(buf.Bytes())
 }
