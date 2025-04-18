@@ -13,6 +13,7 @@ SkyShift is an image transformation system -- a powerful, modular interface for 
 - _Blurr_
 - _Brightness_
 - _Contrast_
+- _Flip_
 
 ## 📂 Project Structure
 
