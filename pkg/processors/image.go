@@ -6,6 +6,8 @@ import (
 	"image/jpeg"
 	"image/png"
 	"strings"
+
+	"github.com/disintegration/imaging"
 )
 
 func InferImageType(filename string) string {
@@ -29,4 +31,10 @@ func convertImageFormat(image *image.NRGBA, format string, quality int) ([]byte,
 	}
 
 	return buf.Bytes(), nil
+}
+
+func Resize(image image.Image, w int, h int, filter imaging.ResampleFilter, format string) ([]byte, error) {
+
+	resizedImage := imaging.Resize(image, w, h, filter)
+	return convertImageFormat(resizedImage, format, 50)
 }
