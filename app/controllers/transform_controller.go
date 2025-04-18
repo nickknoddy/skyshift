@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"image/jpeg"
-	"image/png"
 	"log/slog"
 	"strconv"
 
 	"github.com/disintegration/imaging"
 	"github.com/gofiber/fiber/v2"
+	"github.com/nickknoddy/skyshift/pkg/processors"
 )
 
 func Transform(c *fiber.Ctx) error {
@@ -23,7 +23,10 @@ func Transform(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Failed to process image")
 	}
 
-	if c.Query("w") != "" && c.Query("w") != "" {
+	imageType := processors.InferImageType(fileName)
+	c.Type(imageType)
+
+	if c.Query("w") != "" && c.Query("h") != "" {
 		w, err := strconv.Atoi(c.Query("w"))
 		if err != nil {
 			slog.Error("width should be an int")
@@ -35,13 +38,12 @@ func Transform(c *fiber.Ctx) error {
 			return c.Status(400).SendString("height should be an int")
 		}
 
-		transformedImage := imaging.Resize(image, w, h, imaging.Lanczos)
-		if err := png.Encode(&buf, transformedImage); err != nil {
-			return c.Status(500).SendString("Failed to process image")
+		buf, err := processors.Resize(image, w, h, imaging.Lanczos, imageType)
+		if err != nil {
+			return c.Status(400).SendString("Failed to process image")
 		}
 
-		c.Type("png")
-		return c.Send(buf.Bytes())
+		return c.Send(buf)
 	}
 
 	if c.Query("sharpen") != "" {
