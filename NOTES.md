@@ -18,3 +18,4 @@
 
 1. Enable pre-transformations while uploading images which can be cached
    - will be helpful in cases of resizing, crop and compression
+1. In chaining functionality, use buffers if possible between transformations and only convert it the image format at the last transformation
