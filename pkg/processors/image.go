@@ -38,3 +38,9 @@ func Resize(image image.Image, w int, h int, filter imaging.ResampleFilter, form
 	resizedImage := imaging.Resize(image, w, h, filter)
 	return convertImageFormat(resizedImage, format, 50)
 }
+
+func Sharpen(image image.Image, sharpen float64, format string) ([]byte, error) {
+
+	resizedImage := imaging.Sharpen(image, sharpen)
+	return convertImageFormat(resizedImage, format, 50)
+}
