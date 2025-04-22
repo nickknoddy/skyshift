@@ -73,12 +73,12 @@ func Transform(c *fiber.Ctx) error {
 		}
 
 		if blur > 0 {
-			blurImage := imaging.Blur(image, blur)
-			if err := jpeg.Encode(&buf, blurImage, &jpeg.Options{Quality: 50}); err != nil {
-				return c.Status(500).SendString("Failed to process image")
+			buf, err := processors.Blur(image, blur, imageType)
+			if err != nil {
+				return c.Status(400).SendString("Failed to process image")
 			}
 
-			c.Type("jpg")
+			return c.Send(buf)
 		}
 	}
 
