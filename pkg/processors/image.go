@@ -44,3 +44,9 @@ func Sharpen(image image.Image, sharpen float64, format string) ([]byte, error) 
 	resizedImage := imaging.Sharpen(image, sharpen)
 	return convertImageFormat(resizedImage, format, 50)
 }
+
+func Blur(image image.Image, blur float64, format string) ([]byte, error) {
+
+	blurImage := imaging.Blur(image, blur)
+	return convertImageFormat(blurImage, format, 50)
+}
