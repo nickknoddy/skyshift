@@ -41,8 +41,8 @@ func Resize(image image.Image, w int, h int, filter imaging.ResampleFilter, form
 
 func Sharpen(image image.Image, sharpen float64, format string) ([]byte, error) {
 
-	resizedImage := imaging.Sharpen(image, sharpen)
-	return convertImageFormat(resizedImage, format, 50)
+	sharpenImage := imaging.Sharpen(image, sharpen)
+	return convertImageFormat(sharpenImage, format, 50)
 }
 
 func Blur(image image.Image, blur float64, format string) ([]byte, error) {
