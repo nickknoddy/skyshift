@@ -50,3 +50,9 @@ func Blur(image image.Image, blur float64, format string) ([]byte, error) {
 	blurImage := imaging.Blur(image, blur)
 	return convertImageFormat(blurImage, format, 50)
 }
+
+func Brightness(image image.Image, brightness float64, format string) ([]byte, error) {
+
+	brightenedImage := imaging.AdjustBrightness(image, brightness)
+	return convertImageFormat(brightenedImage, format, 50)
+}
