@@ -109,12 +109,12 @@ func Transform(c *fiber.Ctx) error {
 		}
 
 		if contrast > 0 {
-			contrastImage := imaging.AdjustContrast(image, contrast)
-			if err := jpeg.Encode(&buf, contrastImage, &jpeg.Options{Quality: 50}); err != nil {
-				return c.Status(500).SendString("Failed to process image")
+			buf, err := processors.Contrast(image, contrast, imageType)
+			if err != nil {
+				return c.Status(400).SendString("Failed to process image")
 			}
 
-			c.Type("jpg")
+			return c.Send(buf)
 		}
 	}
 
