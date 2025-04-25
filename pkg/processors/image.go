@@ -56,3 +56,9 @@ func Brightness(image image.Image, brightness float64, format string) ([]byte, e
 	brightenedImage := imaging.AdjustBrightness(image, brightness)
 	return convertImageFormat(brightenedImage, format, 50)
 }
+
+func Contrast(image image.Image, contrast float64, format string) ([]byte, error) {
+
+	contrastImage := imaging.AdjustContrast(image, contrast)
+	return convertImageFormat(contrastImage, format, 50)
+}
