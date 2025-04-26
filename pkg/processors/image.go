@@ -62,3 +62,15 @@ func Contrast(image image.Image, contrast float64, format string) ([]byte, error
 	contrastImage := imaging.AdjustContrast(image, contrast)
 	return convertImageFormat(contrastImage, format, 50)
 }
+
+func FlipHorizontal(image image.Image, format string) ([]byte, error) {
+
+	contrastImage := imaging.FlipH(image)
+	return convertImageFormat(contrastImage, format, 50)
+}
+
+func FlipVertical(image image.Image, format string) ([]byte, error) {
+
+	contrastImage := imaging.FlipV(image)
+	return convertImageFormat(contrastImage, format, 50)
+}
