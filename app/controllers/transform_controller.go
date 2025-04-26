@@ -3,7 +3,6 @@ package controllers
 import (
 	"bytes"
 	"fmt"
-	"image/jpeg"
 	"log/slog"
 	"strconv"
 
@@ -121,19 +120,19 @@ func Transform(c *fiber.Ctx) error {
 	if c.Query("flip") != "" {
 
 		if c.Query("flip") == "h" {
-			flippedImage := imaging.FlipH(image)
-			if err := jpeg.Encode(&buf, flippedImage, &jpeg.Options{Quality: 50}); err != nil {
-				return c.Status(500).SendString("Failed to process image")
+			buf, err := processors.FlipHorizontal(image, imageType)
+			if err != nil {
+				return c.Status(400).SendString("Failed to process image")
 			}
 
-			c.Type("jpg")
+			return c.Send(buf)
 		} else if c.Query("flip") == "v" {
-			flippedImage := imaging.FlipV(image)
-			if err := jpeg.Encode(&buf, flippedImage, &jpeg.Options{Quality: 50}); err != nil {
-				return c.Status(500).SendString("Failed to process image")
+			buf, err := processors.FlipVertical(image, imageType)
+			if err != nil {
+				return c.Status(400).SendString("Failed to process image")
 			}
 
-			c.Type("jpg")
+			return c.Send(buf)
 		}
 	}
 
