@@ -136,5 +136,15 @@ func Transform(c *fiber.Ctx) error {
 		}
 	}
 
+	if c.Query("grayscale") != "" {
+
+		buf, err := processors.GrayScale(image, imageType)
+		if err != nil {
+			return c.Status(400).SendString("Failed to process image")
+		}
+
+		return c.Send(buf)
+	}
+
 	return c.Send(buf.Bytes())
 }
