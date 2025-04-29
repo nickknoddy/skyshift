@@ -146,5 +146,26 @@ func Transform(c *fiber.Ctx) error {
 		return c.Send(buf)
 	}
 
+	if c.Query("crop-center-w") != "" && c.Query("crop-center-h") != "" {
+
+		w, err := strconv.Atoi(c.Query("crop-center-w"))
+		if err != nil {
+			slog.Error("width should be an int")
+			return c.Status(400).SendString("width should be an int")
+		}
+		h, err := strconv.Atoi(c.Query("crop-center-h"))
+		if err != nil {
+			slog.Error("height should be an int")
+			return c.Status(400).SendString("height should be an int")
+		}
+
+		buf, err := processors.CropCenter(image, w, h, imageType)
+		if err != nil {
+			return c.Status(400).SendString("Failed to process image")
+		}
+
+		return c.Send(buf)
+	}
+
 	return c.Send(buf.Bytes())
 }
