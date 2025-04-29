@@ -80,3 +80,9 @@ func GrayScale(image image.Image, format string) ([]byte, error) {
 	contrastImage := imaging.Grayscale(image)
 	return convertImageFormat(contrastImage, format, 50)
 }
+
+func CropCenter(image image.Image, width, height int, format string) ([]byte, error) {
+
+	contrastImage := imaging.CropCenter(image, width, height)
+	return convertImageFormat(contrastImage, format, 50)
+}
