@@ -3,6 +3,7 @@ package processors
 import (
 	"bytes"
 	"image"
+	"image/color"
 	"image/jpeg"
 	"image/png"
 	"strings"
@@ -85,4 +86,10 @@ func CropCenter(image image.Image, width, height int, format string) ([]byte, er
 
 	contrastImage := imaging.CropCenter(image, width, height)
 	return convertImageFormat(contrastImage, format, 50)
+}
+
+func Rotate(image image.Image, angle float64, bgColor color.Color, format string) ([]byte, error) {
+
+	rotatedImage := imaging.Rotate(image, angle, bgColor)
+	return convertImageFormat(rotatedImage, format, 50)
 }
