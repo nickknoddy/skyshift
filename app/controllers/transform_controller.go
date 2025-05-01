@@ -3,6 +3,7 @@ package controllers
 import (
 	"bytes"
 	"fmt"
+	"image/color"
 	"log/slog"
 	"strconv"
 
@@ -160,6 +161,21 @@ func Transform(c *fiber.Ctx) error {
 		}
 
 		buf, err := processors.CropCenter(image, w, h, imageType)
+		if err != nil {
+			return c.Status(400).SendString("Failed to process image")
+		}
+
+		return c.Send(buf)
+	}
+
+	if c.Query("rotate-a") != "" {
+		a, err := strconv.ParseFloat(c.Query("rotate-a"), 64)
+		if err != nil {
+			slog.Error("angle should be an int")
+			return c.Status(400).SendString("angle should be an int")
+		}
+
+		buf, err := processors.Rotate(image, a, color.Transparent, imageType)
 		if err != nil {
 			return c.Status(400).SendString("Failed to process image")
 		}
