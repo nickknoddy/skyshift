@@ -93,3 +93,9 @@ func Rotate(image image.Image, angle float64, bgColor color.Color, format string
 	rotatedImage := imaging.Rotate(image, angle, bgColor)
 	return convertImageFormat(rotatedImage, format, 50)
 }
+
+func Saturation(image image.Image, saturation float64, format string) ([]byte, error) {
+
+	contrastImage := imaging.AdjustSaturation(image, saturation)
+	return convertImageFormat(contrastImage, format, 50)
+}
