@@ -183,5 +183,23 @@ func Transform(c *fiber.Ctx) error {
 		return c.Send(buf)
 	}
 
+	if c.Query("saturation") != "" {
+
+		saturation, err := strconv.ParseFloat(c.Query("saturation"), 64)
+		if err != nil {
+			slog.Error("saturation should be an int")
+			return c.Status(400).SendString("saturation should be an int")
+		}
+
+		if saturation > 0 {
+			buf, err := processors.Saturation(image, saturation, imageType)
+			if err != nil {
+				return c.Status(400).SendString("Failed to process image")
+			}
+
+			return c.Send(buf)
+		}
+	}
+
 	return c.Send(buf.Bytes())
 }
