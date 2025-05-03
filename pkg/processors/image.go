@@ -99,3 +99,9 @@ func Saturation(image image.Image, saturation float64, format string) ([]byte, e
 	contrastImage := imaging.AdjustSaturation(image, saturation)
 	return convertImageFormat(contrastImage, format, 50)
 }
+
+func Fit(image image.Image, w int, h int, filter imaging.ResampleFilter, format string) ([]byte, error) {
+
+	resizedImage := imaging.Fit(image, w, h, filter)
+	return convertImageFormat(resizedImage, format, 50)
+}
