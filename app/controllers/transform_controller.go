@@ -201,5 +201,25 @@ func Transform(c *fiber.Ctx) error {
 		}
 	}
 
+	if c.Query("fit-w") != "" && c.Query("fit-h") != "" {
+		w, err := strconv.Atoi(c.Query("fit-w"))
+		if err != nil {
+			slog.Error("fit width should be an int")
+			return c.Status(400).SendString("width should be an int")
+		}
+		h, err := strconv.Atoi(c.Query("fit-h"))
+		if err != nil {
+			slog.Error("fit height should be an int")
+			return c.Status(400).SendString("height should be an int")
+		}
+
+		buf, err := processors.Fit(image, w, h, imaging.Lanczos, imageType)
+		if err != nil {
+			return c.Status(400).SendString("Failed to process image")
+		}
+
+		return c.Send(buf)
+	}
+
 	return c.Send(buf.Bytes())
 }
